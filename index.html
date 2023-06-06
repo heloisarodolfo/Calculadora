@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+<body>
+    <label for="horaInicial">Hora Inicial:</label>
+    <input type="number" id="horaInicial" />
+
+    <label for="minutoInicial">Minuto Inicial:</label>
+    <input type="number" id="minutoInicial" />
+
+    <label for="horaFinal">Hora Final:</label>
+    <input type="number" id="horaFinal" />
+
+    <label for="minutoFinal">Minuto Final:</label>
+    <input type="number" id="minutoFinal" />
+
+    <button onclick="calcularHoras()">Calcular</button>
+
+    <p id="resultado"></p>
+
+    <script>
+        function calcularHoras() {
+            var horaInicial = parseInt(document.getElementById("horaInicial").value);
+            var minutoInicial = parseInt(document.getElementById("minutoInicial").value);
+            var horaFinal = parseInt(document.getElementById("horaFinal").value);
+            var minutoFinal = parseInt(document.getElementById("minutoFinal").value);
+
+            // Verificar se o valor dos minutos ultrapassa 59
+            if (minutoInicial > 59 || minutoFinal > 59) {
+                document.getElementById("resultado").innerHTML = "Valor inválido para os minutos.";
+                return;
+            }
+
+            // Realizar a soma ou subtração dos minutos
+            var totalMinutos = (horaFinal * 60 + minutoFinal) - (horaInicial * 60 + minutoInicial);
+
+            // Verificar se o total de minutos é negativo
+            var isNegativo = totalMinutos < 0;
+
+            // Obter o valor absoluto dos minutos
+            totalMinutos = Math.abs(totalMinutos);
+
+            // Calcular as horas e minutos
+            var horas = Math.floor(totalMinutos / 60);
+            var minutos = totalMinutos % 60;
+
+            // Verificar se há um bug proposital
+            if (Math.random() < 0.5) {
+                minutos += 60; // Adicionar 60 minutos para introduzir um erro
+            }
+
+            // Ajustar o valor dos minutos se ultrapassar 59
+            if (minutos >= 60) {
+                horas += Math.floor(minutos / 60);
+                minutos = minutos % 60;
+            }
+
+            // Ajustar o valor das horas se for negativo
+            if (isNegativo) {
+                horas = -horas;
+            }
+
+            // Exibir o resultado
+            document.getElementById("resultado").innerHTML = horas + ":" + minutos;
+            }
+    </script>
+</body>
+</html>
